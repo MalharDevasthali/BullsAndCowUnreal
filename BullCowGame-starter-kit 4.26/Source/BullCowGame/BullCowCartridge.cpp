@@ -4,52 +4,71 @@
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
-    PrintLine(TEXT("Welcome to Bull and Cow Game"));
-    PrintLine(TEXT("Press Enter to Continue:"));
-    InitGame();
+    SetupGame();
 }
 
 void UBullCowCartridge::OnInput(const FString &Input) // When the player hits enter
 {
-    ClearScreen();
-    if (hiddenIsogram == Input)
+
+    if (bGameOver)
     {
-        PrintLine(TEXT("Great You Won!"));
-        GameWon();
+        ReplayGame();
     }
     else
     {
-        // for (int i = 0; i < Input.)
-        PrintLine(TEXT("Lost!"));
 
-        lives--;
-        if (lives > 0)
+        if (hiddenIsogram == Input)
         {
-            ContinueNextTry();
+            PrintLine(TEXT("Great You Won!\nPress Enter to Continue"));
+            GameOver();
         }
         else
         {
-            GameLost();
+
+            int32 hiddenIsoLength = hiddenIsogram.Len();
+
+            if (Input.Len() != hiddenIsogram.Len())
+            {
+                PrintLine(TEXT("Hidden word is of %i length, please enter %i length word"), hiddenIsoLength, hiddenIsoLength);
+            }
+
+            lives--;
+            if (lives > 0)
+            {
+                ContinueNextTry();
+            }
+            else
+            {
+                PrintLine(TEXT("You Lost!\nPress Enter to Continue"));
+                GameOver();
+            }
         }
     }
 }
-void UBullCowCartridge::InitGame()
+
+void UBullCowCartridge::SetupGame()
 {
     hiddenIsogram = TEXT("unreal");
-    lives = 4;
+    lives = hiddenIsogram.Len();
+    bGameOver = false;
+
+    PrintLine(TEXT("Hidden word is %s.\nThe length of the word is %i"), *hiddenIsogram, hiddenIsogram.Len());
+    PrintLine(TEXT("Welcome to Bull and Cow Game"));
+    PrintLine(TEXT("Guess a %i letter word"), hiddenIsogram.Len());
+    PrintLine(TEXT("Enter your guess"));
 }
 void UBullCowCartridge::ContinueNextTry()
 {
-}
-void UBullCowCartridge::QuitGame()
-{
+    PrintLine(TEXT("You Lost one life.\nYou have %i lives left"), lives);
 }
 void UBullCowCartridge::ReplayGame()
 {
+    ClearScreen();
+    SetupGame();
+    PrintLine("Press Enter to Play Again , Esc to Quit!");
 }
-void UBullCowCartridge::GameLost()
+
+void UBullCowCartridge::GameOver()
 {
-}
-void UBullCowCartridge::GameWon()
-{
+    bGameOver = true;
 }
