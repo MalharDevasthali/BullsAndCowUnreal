@@ -6,45 +6,37 @@ void UBullCowCartridge::BeginPlay() // When the game starts
     Super::BeginPlay();
     SetupGame();
 
-
-
-    //Hi()
 }
 
 void UBullCowCartridge::OnInput(const FString &Input) // When the player hits enter
 {
-
+    ClearScreen();
     if (bGameOver)
     {
         ReplayGame();
     }
     else
     {
-
         if (hiddenIsogram == Input)
         {
-            PrintLine(TEXT("Great You Won!\nPress Enter to Continue"));
-            GameOver();
+            GameOver(true);
         }
         else
         {
-
+    
             int32 hiddenIsoLength = hiddenIsogram.Len();
-
-            if (Input.Len() != hiddenIsogram.Len())
-            {
-                PrintLine(TEXT("Hidden word is of %i length, please enter %i length word"), hiddenIsoLength, hiddenIsoLength);
-            }
-
             lives--;
+
             if (lives > 0)
-            {
+            {     
+                if (Input.Len() != hiddenIsogram.Len())
+                    PrintLine(TEXT("Hidden word is of %i length\nPlease enter %i length word"), hiddenIsoLength, hiddenIsoLength);
+               
                 ContinueNextTry();
             }
             else
-            {
-                PrintLine(TEXT("You Lost!\nPress Enter to Continue"));
-                GameOver();
+            {         
+                GameOver(false);
             }
         }
     }
@@ -56,7 +48,7 @@ void UBullCowCartridge::SetupGame()
     lives = hiddenIsogram.Len();
     bGameOver = false;
 
-    PrintLine(TEXT("Hidden word is %s.\nThe length of the word is %i"), *hiddenIsogram, hiddenIsogram.Len());
+ //   PrintLine(TEXT("Hidden word is %s.\nThe length of the word is %i"), *hiddenIsogram, hiddenIsogram.Len());
     PrintLine(TEXT("Welcome to Bull and Cow Game"));
     PrintLine(TEXT("Guess a %i letter word"), hiddenIsogram.Len());
     PrintLine(TEXT("Enter your guess"));
@@ -67,12 +59,19 @@ void UBullCowCartridge::ContinueNextTry()
 }
 void UBullCowCartridge::ReplayGame()
 {
-    ClearScreen();
     SetupGame();
-    PrintLine("Press Enter to Play Again , Esc to Quit!");
 }
 
-void UBullCowCartridge::GameOver()
+void UBullCowCartridge::GameOver(bool hasWon)
 {
     bGameOver = true;
+    if (hasWon)
+        PrintLine(TEXT("Great You Won!\nPress Enter to Continue,Esc to Quit!"));
+    else
+        PrintLine(TEXT("You Lost!\nPress Enter to Continue, Esc to Quit!"));
+    
+}
+void UBullCowCartridge::ProcessGuess(FString Guess)
+{
+ 
 }

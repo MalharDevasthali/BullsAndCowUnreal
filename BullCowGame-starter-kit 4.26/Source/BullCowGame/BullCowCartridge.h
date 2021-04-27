@@ -17,11 +17,14 @@ public:
 	void SetupGame();
 	void ContinueNextTry();
 	void ReplayGame();
-	void GameOver();
+	void GameOver(bool);
+	void ProcessGuess(FString Guess);
+	
 
 	// Your declarations go below!
 private:
 	FString hiddenIsogram; //Isogram is a string where no words will appear more than once in a string
 	int32 lives;
 	bool bGameOver;
+
 };
