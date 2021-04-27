@@ -48,7 +48,7 @@ void UBullCowCartridge::SetupGame()
     lives = hiddenIsogram.Len();
     bGameOver = false;
 
- //   PrintLine(TEXT("Hidden word is %s.\nThe length of the word is %i"), *hiddenIsogram, hiddenIsogram.Len());
+    PrintLine(TEXT("Hidden word is %s.\nThe length of the word is %i"), *hiddenIsogram, hiddenIsogram.Len());
     PrintLine(TEXT("Welcome to Bull and Cow Game"));
     PrintLine(TEXT("Guess a %i letter word"), hiddenIsogram.Len());
     PrintLine(TEXT("Enter your guess"));
