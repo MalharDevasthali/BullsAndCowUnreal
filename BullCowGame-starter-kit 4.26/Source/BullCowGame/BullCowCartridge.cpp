@@ -28,9 +28,14 @@ void UBullCowCartridge::ProcessGuess(FString Guess)
     }
     else
     {
-
-        int32 hiddenIsoLength = hiddenIsogram.Len();
         lives--;
+        int32 hiddenIsoLength = hiddenIsogram.Len();
+       
+        if (!IsIsogram(Guess))
+        {
+            PrintLine(TEXT("Its not Isograme please try again"));
+            return;
+        }
 
         if (lives > 0)
         {
@@ -44,6 +49,31 @@ void UBullCowCartridge::ProcessGuess(FString Guess)
             GameOver(false);
         }
     }
+}
+
+bool UBullCowCartridge::IsIsogram(FString typedWord)
+{
+    INT16 asciiArray[255];
+    for (int i = 0; i < 255; i++)
+    {
+        asciiArray[i] = 0;
+    }
+
+    for (int i = 0; i < typedWord.Len(); i++)
+    {
+        asciiArray[typedWord[i]]++;
+    }
+
+    for (int i = 0; i < 255; i++)
+    {
+        if (asciiArray[i] > 1)
+        {
+            return false;
+        }
+    }
+
+    return true;
+
 }
 
 void UBullCowCartridge::SetupGame()

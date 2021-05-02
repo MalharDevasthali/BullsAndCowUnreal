@@ -19,6 +19,7 @@ public:
 	void ReplayGame();
 	void GameOver(bool);
 	void ProcessGuess(FString Guess);
+	bool IsIsogram(FString word);
 	
 
 	// Your declarations go below!
