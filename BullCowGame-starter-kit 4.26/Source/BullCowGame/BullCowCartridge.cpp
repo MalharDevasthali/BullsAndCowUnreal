@@ -5,7 +5,6 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
     SetupGame();
-
 }
 
 void UBullCowCartridge::OnInput(const FString &Input) // When the player hits enter
@@ -17,27 +16,32 @@ void UBullCowCartridge::OnInput(const FString &Input) // When the player hits en
     }
     else
     {
-        if (hiddenIsogram == Input)
+        ProcessGuess(Input);
+    }
+}
+
+void UBullCowCartridge::ProcessGuess(FString Guess)
+{
+    if (hiddenIsogram == Guess)
+    {
+        GameOver(true);
+    }
+    else
+    {
+
+        int32 hiddenIsoLength = hiddenIsogram.Len();
+        lives--;
+
+        if (lives > 0)
         {
-            GameOver(true);
+            if (Guess.Len() != hiddenIsogram.Len())
+                PrintLine(TEXT("Hidden word is of %i length\nPlease enter %i length word"), hiddenIsoLength, hiddenIsoLength);
+
+            ContinueNextTry();
         }
         else
         {
-    
-            int32 hiddenIsoLength = hiddenIsogram.Len();
-            lives--;
-
-            if (lives > 0)
-            {     
-                if (Input.Len() != hiddenIsogram.Len())
-                    PrintLine(TEXT("Hidden word is of %i length\nPlease enter %i length word"), hiddenIsoLength, hiddenIsoLength);
-               
-                ContinueNextTry();
-            }
-            else
-            {         
-                GameOver(false);
-            }
+            GameOver(false);
         }
     }
 }
@@ -47,7 +51,7 @@ void UBullCowCartridge::SetupGame()
     hiddenIsogram = TEXT("unreal");
     lives = hiddenIsogram.Len();
     bGameOver = false;
-
+   
     PrintLine(TEXT("Hidden word is %s.\nThe length of the word is %i"), *hiddenIsogram, hiddenIsogram.Len());
     PrintLine(TEXT("Welcome to Bull and Cow Game"));
     PrintLine(TEXT("Guess a %i letter word"), hiddenIsogram.Len());
@@ -70,8 +74,4 @@ void UBullCowCartridge::GameOver(bool hasWon)
     else
         PrintLine(TEXT("You Lost!\nPress Enter to Continue, Esc to Quit!"));
     
-}
-void UBullCowCartridge::ProcessGuess(FString Guess)
-{
- 
 }
