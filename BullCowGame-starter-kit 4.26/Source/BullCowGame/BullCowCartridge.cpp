@@ -61,24 +61,35 @@ void UBullCowCartridge::ReduceLife(const FString &Guess)
         PrintLine(TEXT("Its not Isogram please try again"));
         return;
     }
+    CalculateBullsAndCows(Guess);
+}
+
+void UBullCowCartridge::CalculateBullsAndCows(const FString& Guess)
+{
+    int32 bulls = 0, cows = 0;
+
+    for (int i = 0; i < Guess.Len(); i++)
+    {
+        if (Guess[i] == hiddenIsogram[i])
+        {
+            bulls++;
+            continue;
+        }
+        for (int j = 0; j < Guess.Len(); j++)
+        {
+            if (Guess[i] == hiddenIsogram[j])
+            {
+                cows++;
+                break;
+            }
+        }
+    }
+    PrintLine(TEXT("Entered word is %s.\nYou have %i Bulls and %i cows"),*Guess, bulls, cows);
+    PrintLine(TEXT("Keep Guessing!"));
+
 }
 
 
-//int32 bulls = 0, cows = 0;
-//
-//for (int i = 0; i < Guess.Len(); i++)
-//{
-//    if (Guess[i] == hiddenIsogram[i])
-//    {
-//        bulls++;
-//    }
-//    else
-//    {
-//        cows++;
-//    }
-//}
-//PrintLine(TEXT("You have %i Bulls and %i cows"), bulls, cows);
-//PrintLine(TEXT("Keep Guessing!"));
 bool UBullCowCartridge::IsIsogram(const FString &typedWord) const
 {
     int16 asciiArray[255];
@@ -114,7 +125,7 @@ void UBullCowCartridge::SetupGame()
     lives = hiddenIsogram.Len();
     bGameOver = false;
    
-   // PrintLine(TEXT("Hidden word is %s.\nThe length of the word is %i"), *hiddenIsogram, hiddenIsogram.Len());
+    PrintLine(TEXT("Hidden word is %s.\nThe length of the word is %i"), *hiddenIsogram, hiddenIsogram.Len());
     PrintLine(TEXT("Welcome to Bull and Cow Game"));
     PrintLine(TEXT("Guess a %i letter word"), hiddenIsogram.Len());
     PrintLine(TEXT("Enter your guess"));
@@ -131,6 +142,6 @@ void UBullCowCartridge::GameOver(bool hasWon)
     if (hasWon)
         PrintLine(TEXT("Great You Won!\nPress Enter to Continue,Esc to Quit!"));
     else
-        PrintLine(TEXT("You Lost!\nPress Enter to Continue, Esc to Quit!"));
+        PrintLine(TEXT("You Lost!\nHidden Word Was: %s.\nPress Enter to Continue, Esc to Quit!"),*hiddenIsogram);
     
 }

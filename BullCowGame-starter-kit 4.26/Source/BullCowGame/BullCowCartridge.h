@@ -20,6 +20,7 @@ public:
 	void ProcessGuess(const FString &Guess);
 	void ReduceLife(const FString &Guess);
 	bool IsIsogram(const FString &word) const;
+	void CalculateBullsAndCows(const FString &typedWordLength);
 	
 
 	// Your declarations go below!
