@@ -66,25 +66,25 @@ void UBullCowCartridge::ReduceLife(const FString &Guess)
 
 void UBullCowCartridge::CalculateBullsAndCows(const FString& Guess)
 {
-    int32 bulls = 0, cows = 0;
+    BullsCowsCount count;
 
     for (int i = 0; i < Guess.Len(); i++)
     {
         if (Guess[i] == hiddenIsogram[i])
         {
-            bulls++;
+            count.Bulls++;
             continue;
         }
         for (int j = 0; j < Guess.Len(); j++)
         {
             if (Guess[i] == hiddenIsogram[j])
             {
-                cows++;
+                count.Cows++;
                 break;
             }
         }
     }
-    PrintLine(TEXT("Entered word is %s.\nYou have %i Bulls and %i cows"),*Guess, bulls, cows);
+    PrintLine(TEXT("Entered word is %s.\nYou have %i Bulls and %i cows"),*Guess, count.Bulls ,count.Cows );
     PrintLine(TEXT("Keep Guessing!"));
 
 }
@@ -125,7 +125,7 @@ void UBullCowCartridge::SetupGame()
     lives = hiddenIsogram.Len();
     bGameOver = false;
    
-    PrintLine(TEXT("Hidden word is %s.\nThe length of the word is %i"), *hiddenIsogram, hiddenIsogram.Len());
+   // PrintLine(TEXT("Hidden word is %s.\nThe length of the word is %i"), *hiddenIsogram, hiddenIsogram.Len());
     PrintLine(TEXT("Welcome to Bull and Cow Game"));
     PrintLine(TEXT("Guess a %i letter word"), hiddenIsogram.Len());
     PrintLine(TEXT("Enter your guess"));

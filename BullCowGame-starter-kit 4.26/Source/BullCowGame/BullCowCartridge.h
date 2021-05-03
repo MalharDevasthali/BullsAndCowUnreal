@@ -6,6 +6,15 @@
 #include "Console/Cartridge.h"
 #include "BullCowCartridge.generated.h"
 
+
+struct BullsCowsCount
+{
+	//by default these variables will be public 
+	int32 Bulls = 0;
+	int32 Cows = 0;
+};
+
+
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class BULLCOWGAME_API UBullCowCartridge : public UCartridge
 {
