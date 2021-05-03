@@ -1,5 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "BullCowCartridge.h"
+#include "HiddenWordsList.h"
 
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
@@ -20,7 +21,7 @@ void UBullCowCartridge::OnInput(const FString &Input) // When the player hits en
     }
 }
 
-void UBullCowCartridge::ProcessGuess(FString Guess)
+void UBullCowCartridge::ProcessGuess(const FString &Guess)
 {
     if (hiddenIsogram == Guess)
     {
@@ -32,7 +33,7 @@ void UBullCowCartridge::ProcessGuess(FString Guess)
     }
 }
 
-void UBullCowCartridge::ReduceLife(FString Guess)
+void UBullCowCartridge::ReduceLife(const FString &Guess)
 {
   
     lives--;
@@ -62,9 +63,26 @@ void UBullCowCartridge::ReduceLife(FString Guess)
     }
 }
 
-bool UBullCowCartridge::IsIsogram(FString typedWord)
+
+//int32 bulls = 0, cows = 0;
+//
+//for (int i = 0; i < Guess.Len(); i++)
+//{
+//    if (Guess[i] == hiddenIsogram[i])
+//    {
+//        bulls++;
+//    }
+//    else
+//    {
+//        cows++;
+//    }
+//}
+//PrintLine(TEXT("You have %i Bulls and %i cows"), bulls, cows);
+//PrintLine(TEXT("Keep Guessing!"));
+bool UBullCowCartridge::IsIsogram(const FString &typedWord) const
 {
-    INT16 asciiArray[255];
+    int16 asciiArray[255];
+
     for (int i = 0; i < 255; i++)
     {
         asciiArray[i] = 0;
@@ -72,9 +90,9 @@ bool UBullCowCartridge::IsIsogram(FString typedWord)
 
     for (int i = 0; i < typedWord.Len(); i++)
     {
-        asciiArray[typedWord[i]]++;
-        
+        asciiArray[typedWord[i]]++; 
     }
+   
     for (int i = 0; i < 255; i++)
     {
         if (asciiArray[i] > 1)
@@ -89,11 +107,14 @@ bool UBullCowCartridge::IsIsogram(FString typedWord)
 
 void UBullCowCartridge::SetupGame()
 {
-    hiddenIsogram = TEXT("unreal");
+
+    int randomIndex = FMath::RandRange(0, InbuiltIsogramWords.Num());
+
+    hiddenIsogram = InbuiltIsogramWords[randomIndex];
     lives = hiddenIsogram.Len();
     bGameOver = false;
    
-    PrintLine(TEXT("Hidden word is %s.\nThe length of the word is %i"), *hiddenIsogram, hiddenIsogram.Len());
+   // PrintLine(TEXT("Hidden word is %s.\nThe length of the word is %i"), *hiddenIsogram, hiddenIsogram.Len());
     PrintLine(TEXT("Welcome to Bull and Cow Game"));
     PrintLine(TEXT("Guess a %i letter word"), hiddenIsogram.Len());
     PrintLine(TEXT("Enter your guess"));

@@ -17,9 +17,9 @@ public:
 	void SetupGame();
 	void ReplayGame();
 	void GameOver(bool);
-	void ProcessGuess(FString Guess);
-	void ReduceLife(FString Guess);
-	bool IsIsogram(FString word);
+	void ProcessGuess(const FString &Guess);
+	void ReduceLife(const FString &Guess);
+	bool IsIsogram(const FString &word) const;
 	
 
 	// Your declarations go below!
