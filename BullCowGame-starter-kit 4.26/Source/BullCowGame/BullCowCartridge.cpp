@@ -28,26 +28,37 @@ void UBullCowCartridge::ProcessGuess(FString Guess)
     }
     else
     {
-        lives--;
-        int32 hiddenIsoLength = hiddenIsogram.Len();
-       
-        if (!IsIsogram(Guess))
-        {
-            PrintLine(TEXT("Its not Isograme please try again"));
-            return;
-        }
+        ReduceLife(Guess);
+    }
+}
 
-        if (lives > 0)
-        {
-            if (Guess.Len() != hiddenIsogram.Len())
-                PrintLine(TEXT("Hidden word is of %i length\nPlease enter %i length word"), hiddenIsoLength, hiddenIsoLength);
+void UBullCowCartridge::ReduceLife(FString Guess)
+{
+  
+    lives--;
+    int32 hiddenIsoLength = hiddenIsogram.Len();
 
-            ContinueNextTry();
-        }
-        else
-        {
-            GameOver(false);
-        }
+
+
+    if (lives <= 0)
+    {
+        GameOver(false);
+        return;
+    }
+
+    PrintLine(TEXT("You Lost one life.\nYou have %i lives left"), lives);
+  
+    if (Guess.Len() != hiddenIsogram.Len())
+    {
+        PrintLine(TEXT("Hidden word is of %i length\nPlease enter %i length word"), hiddenIsoLength, hiddenIsoLength);
+
+        return;
+    }
+
+    if (!IsIsogram(Guess))
+    {
+        PrintLine(TEXT("Its not Isogram please try again"));
+        return;
     }
 }
 
@@ -62,8 +73,8 @@ bool UBullCowCartridge::IsIsogram(FString typedWord)
     for (int i = 0; i < typedWord.Len(); i++)
     {
         asciiArray[typedWord[i]]++;
+        
     }
-
     for (int i = 0; i < 255; i++)
     {
         if (asciiArray[i] > 1)
@@ -87,10 +98,7 @@ void UBullCowCartridge::SetupGame()
     PrintLine(TEXT("Guess a %i letter word"), hiddenIsogram.Len());
     PrintLine(TEXT("Enter your guess"));
 }
-void UBullCowCartridge::ContinueNextTry()
-{
-    PrintLine(TEXT("You Lost one life.\nYou have %i lives left"), lives);
-}
+
 void UBullCowCartridge::ReplayGame()
 {
     SetupGame();

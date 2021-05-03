@@ -15,10 +15,10 @@ public:
 	virtual void BeginPlay() override;
 	virtual void OnInput(const FString &Input) override;
 	void SetupGame();
-	void ContinueNextTry();
 	void ReplayGame();
 	void GameOver(bool);
 	void ProcessGuess(FString Guess);
+	void ReduceLife(FString Guess);
 	bool IsIsogram(FString word);
 	
 
