@@ -28,7 +28,7 @@ public:
 	void GameOver(bool);
 	void ProcessGuess(const FString &Guess);
 	void ReduceLife(const FString &Guess);
-	bool IsIsogram(const FString &word) const;
+	bool IsIsogram(const FString &word) const; //Example of const function which will not modify any memeber variables of the class
 	void CalculateBullsAndCows(const FString &typedWordLength);
 	
 

@@ -61,6 +61,7 @@ void UBullCowCartridge::ReduceLife(const FString &Guess)
         PrintLine(TEXT("Its not Isogram please try again"));
         return;
     }
+
     CalculateBullsAndCows(Guess);
 }
 
@@ -125,7 +126,6 @@ void UBullCowCartridge::SetupGame()
     lives = hiddenIsogram.Len();
     bGameOver = false;
    
-   // PrintLine(TEXT("Hidden word is %s.\nThe length of the word is %i"), *hiddenIsogram, hiddenIsogram.Len());
     PrintLine(TEXT("Welcome to Bull and Cow Game"));
     PrintLine(TEXT("Guess a %i letter word"), hiddenIsogram.Len());
     PrintLine(TEXT("Enter your guess"));
@@ -143,5 +143,4 @@ void UBullCowCartridge::GameOver(bool hasWon)
         PrintLine(TEXT("Great You Won!\nPress Enter to Continue,Esc to Quit!"));
     else
         PrintLine(TEXT("You Lost!\nHidden Word Was: %s.\nPress Enter to Continue, Esc to Quit!"),*hiddenIsogram);
-    
 }
